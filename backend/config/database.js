@@ -2,41 +2,34 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI;
-    
-    if (!mongoURI) {
-      throw new Error('MONGODB_URI environment variable is not defined');
-    }
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-    console.log('🔗 Connecting to MongoDB...');
-
-    // Remove deprecated options
-    const conn = await mongoose.connect(mongoURI);
-
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    console.log(`📊 Database: ${conn.connection.name}`);
-    
-    return conn;
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    
-    if (process.env.NODE_ENV !== 'production') {
+    console.error('Database connection error:', error);
+    // Don't exit the process in development when DB is unreachable so the
+    // server can still start (useful for local frontend work). If you want
+    // the process to stop on DB errors in production, set NODE_ENV=production
+    // and handle accordingly.
+    if (process.env.NODE_ENV === 'production') {
       process.exit(1);
     }
   }
 };
 
 mongoose.connection.on('disconnected', () => {
-  console.log('📡 MongoDB disconnected');
+  console.log('MongoDB disconnected');
 });
 
 mongoose.connection.on('error', (err) => {
-  console.error('❌ MongoDB connection error:', err);
+  console.error('MongoDB connection error:', err);
 });
 
 process.on('SIGINT', async () => {
   await mongoose.connection.close();
-  console.log('📡 MongoDB connection closed through app termination');
   process.exit(0);
 });
 
