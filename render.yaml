@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: mkulimaconnect-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mkulimaconnect-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OPENWEATHER_API_KEY
+        value: your_actual_api_key
