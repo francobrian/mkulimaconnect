@@ -455,8 +455,8 @@ For support, email brianfranco595@gmail.com or create an issue in the GitHub rep
 
 ## 🔗 Links
 
-- [Live Demo](https://mkulimaconnect.vercel.app)
-- [API Documentation](https://mkulimaconnect-backend.onrender.com/api-docs)
+- [Live Demo](https://mkulimaconnect3.vercel.app/)
+- [API Documentation](https://mkulimaconnect-3.onrender.com)
 - [Frontend Repository](https://github.com/your-username/mkulimaconnect-frontend)
 - [Backend Repository](https://github.com/your-username/mkulimaconnect-backend)
 
